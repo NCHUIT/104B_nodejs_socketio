@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <script src="/socket.io/socket.io.js"></script>
+  <title>socket.io</title>
+</head>
+<body>
+    hi~I'm Sakamoto
+    <script>
+      var socket = io.connect();
+
+      socket.on('message', function(data){
+        console.log(data.message);
+      });
+    </script>
+</body>
+</html>

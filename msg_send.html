@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
+    <title>msg send</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #BBE9DB;
+        font-family:'Roboto', '黑體-繁', '微軟正黑體', sans-serif;
+      }
+      #send-msg {
+        color: #AECCC6;
+      }
+      #send-msg:hover, #send-msg:focus {
+        color: #93A5A1;
+      }
+      p {
+        color: #9BA6A5;
+        text-align: center;
+        margin: 0px;
+      }
+      #main {
+        display: table;
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      #msg {
+        display: table-cell;
+        vertical-align: middle;
+      }
+      input {
+        width:  200px !important;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="main" align="center">
+      <div id="msg">
+
+        <span class="fa-stack fa-5x fa-fw" id="send-msg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-commenting-o fa-stack-1x  fa-inverse"></i>
+        </span>
+        <input type="text" class="form-control" name="fullname" maxlength="10"  placeholder="輸入文字...(最多10個字)"/ id="msg-text">
+
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect();
+
+      jQuery(document).ready(function($) {
+        $('#send-msg').click(function() {
+          send_msg();
+        });
+        $('#msg-text').keypress(function(event) {
+          if(event.which == 13) {
+            send_msg();
+          }
+        });
+
+        function send_msg() {
+          var $msg = $('#msg-text');
+          var msg_text = $msg.val();
+          if (msg_text != '') {
+            socket.emit('client_data', msg_text);
+            $msg.val('');
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
